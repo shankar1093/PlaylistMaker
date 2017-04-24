@@ -52,16 +52,23 @@ def youtube_get_videos_from_channel():
       video_id = playlist_item["snippet"]["resourceId"]["videoId"]
       description_response = youtube_get_soundcloud(video_id)
       if len(description_response)!=0:
-		soundcloud_artists.update(description_response)
+      	for i in description_response:
+      		soundcloud_artists.update([i.encode('utf-8')])
 
     playlistitems_list_request = youtube.playlistItems().list_next(
       playlistitems_list_request, playlistitems_list_response)
-
+  print soundcloud_artists
   return soundcloud_artists
 
 if __name__ == "__main__":
 
   try:
-    print youtube_get_videos_from_channel()
+    artist_urls = youtube_get_videos_from_channel()
+    artists = open("artists.txt", "w")
+
+    for i in artist_urls:
+    	artists.write("%s\n" %i)
+
+
   except HttpError, e:
     print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
