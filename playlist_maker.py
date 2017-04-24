@@ -53,7 +53,7 @@ def youtube_get_videos_from_channel():
       description_response = youtube_get_soundcloud(video_id)
       if len(description_response)!=0:
       	for i in description_response:
-      		soundcloud_artists.update([i.encode('utf-8')])
+      		soundcloud_artists.update([i.encode('utf-8').strip().strip(" and")])
 
     playlistitems_list_request = youtube.playlistItems().list_next(
       playlistitems_list_request, playlistitems_list_response)
